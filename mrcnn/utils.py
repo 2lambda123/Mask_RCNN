@@ -253,6 +253,17 @@ class Dataset(object):
     """
 
     def __init__(self, class_map=None):
+        """Initialize the class with optional class map.
+        Parameters:
+            - class_map (dict): Dictionary of class names and their corresponding IDs.
+        Returns:
+            - None: No return value.
+        Processing Logic:
+            - Set image IDs to empty list.
+            - Set image info to empty list.
+            - Set class info to include background class.
+            - Set source class IDs to empty dictionary."""
+        
         self._image_ids = []
         self.image_info = []
         # Background is always the first class
@@ -260,6 +271,18 @@ class Dataset(object):
         self.source_class_ids = {}
 
     def add_class(self, source, class_id, class_name):
+        """Adds a new class to the class_info list.
+        Parameters:
+            - source (str): The source name of the class.
+            - class_id (int): The ID of the class.
+            - class_name (str): The name of the class.
+        Returns:
+            - None: Does not return anything.
+        Processing Logic:
+            - Check if source name contains a dot.
+            - Check if the class already exists.
+            - Add the class to the class_info list."""
+        
         assert "." not in source, "Source name cannot contain a dot"
         # Does the class exist already?
         for info in self.class_info:
@@ -274,6 +297,19 @@ class Dataset(object):
         })
 
     def add_image(self, source, image_id, path, **kwargs):
+        """Adds an image to the list of images.
+        Parameters:
+            - source (str): The source of the image.
+            - image_id (int): The unique ID of the image.
+            - path (str): The path to the image file.
+            - **kwargs (optional): Additional keyword arguments to be added to the image info.
+        Returns:
+            - None: This function does not return anything.
+        Processing Logic:
+            - Create a dictionary with the image info.
+            - Update the dictionary with any additional keyword arguments.
+            - Append the dictionary to the list of images."""
+        
         image_info = {
             "id": image_id,
             "source": source,
@@ -343,6 +379,17 @@ class Dataset(object):
 
     @property
     def image_ids(self):
+        """"Returns the list of image IDs associated with the current object.
+        Parameters:
+            - self (object): The current object.
+        Returns:
+            - list: A list of image IDs associated with the current object.
+        Processing Logic:
+            - Returns the list of image IDs.
+            - Only accessible within the current object.
+            - Can be used to retrieve specific images.
+            - Useful for data analysis and manipulation.""""
+        
         return self._image_ids
 
     def source_image_link(self, image_id):
@@ -554,6 +601,18 @@ def expand_mask(bbox, mini_mask, image_shape):
 
 # TODO: Build and use this function to reduce code duplication
 def mold_mask(mask, config):
+    """"Molds a given mask according to the provided configuration."
+    Parameters:
+        - mask (numpy array): The mask to be molded.
+        - config (dictionary): A dictionary containing the configuration parameters.
+    Returns:
+        - numpy array: The molded mask.
+    Processing Logic:
+        - Extracts the required parameters from the config.
+        - Resizes the mask according to the specified dimensions.
+        - Applies any necessary transformations to the mask.
+        - Returns the molded mask."""
+    
     pass
 
 
